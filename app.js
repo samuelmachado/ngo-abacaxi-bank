@@ -5,7 +5,7 @@
 // 2 => "10" => saldo
 // var contas = [ ["Samuel", 1, 10],  ["José", 2, 10]]
 
-var contas = []
+var contas = [["MeRemova", 1, 0]]
 
 const SALDO_INICIAL = 10
 
@@ -14,25 +14,43 @@ const NUM_CONTA = 1
 const SALDO_CONTA = 2
 
 
-
-function deposita(valor, conta) {
+function gerenciaConta(valor, numeroConta) {
+  if(valor > 0) {
+    deposita(valor, numeroConta)
+  } else if(valor < 0) {
+    saque(valor * -1, numeroConta)
+  }
+}
+function deposita(valor, numeroConta) {
   //conta[2] += valor
   
-  index = buscaIndiceContas(conta[NUM_CONTA])
+  index = buscaIndiceContas(numeroConta)
 
   contas[index][SALDO_CONTA] += valor
 }
 
 
-function saque(valor, conta) {
-  index = buscaIndiceContas(conta[NUM_CONTA])
+function saque(valor, numeroConta) {
+  //TODO: verificar se ele pode sacar
+
+  
+  index = buscaIndiceContas(numeroConta)
 
   contas[index][SALDO_CONTA] -= valor
 }
 
-function encerrarConta(conta) {
+function encerrarConta(numeroConta) {
+  var resposta = prompt("Digite 'remover' para confirmar a exclusão");
+  if(resposta != 'remover') {
+    return alert("Operação cancelada!")
+  }
+
+
+  index = buscaIndiceContas(numeroConta)
+  conta = contas[index]
+
   if (conta[SALDO_CONTA] != 0) {
-    return console.error("VOCÊ NÃO PODE FAZER ISSO!")
+    return alert("VOCÊ NÃO PODE APAGAR UMA CONTA COM SALDO")
   }
 
   index = buscaIndiceContas(conta[NUM_CONTA])
@@ -75,27 +93,27 @@ function buscaIndiceContas(numeroConta) {
 
 }
 
-novaConta("Maria")
-novaConta("Joaquina")
-novaConta("Zezinho")
+// novaConta("Maria")
+// novaConta("Joaquina")
+// novaConta("Zezinho")
 
-console.log(contas)
+// console.log(contas)
 
-var contaDois = buscaConta(2)
-var contaUm = buscaConta(1)
+// var contaDois = buscaConta(2)
+// var contaUm = buscaConta(1)
 
-var contaVinte = buscaConta(20)
-console.log('Busca de contas: ',contaDois, contaVinte)
-
-
-
-deposita(20 ,contaDois)
-saque(5 ,contaUm)
-console.log('contas: ', contas)
+// var contaVinte = buscaConta(20)
+// console.log('Busca de contas: ',contaDois, contaVinte)
 
 
-saque(5, contaUm)
 
-encerrarConta(contaUm)
+// deposita(20 ,contaDois)
+// saque(5 ,contaUm)
+// console.log('contas: ', contas)
 
-console.log(contas)
+
+// saque(5, contaUm)
+
+// encerrarConta(contaUm)
+
+// console.log(contas)

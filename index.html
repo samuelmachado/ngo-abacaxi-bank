@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style>
+  td, th {
+    text-align: center;
+  }
+  a {
+    color: red;
+    cursor: pointer;
+    font-weight: bold;
+    
+  }
+</style>
+
+</head>
+<body>
+
+    <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Criação de conta</h3>
+        <input type="text" class="form-control col-md-4" name="nome" id="nome">
+        <button onclick="criarContaForm()" class="btn btn-info">Criar conta</button>
+        <Br>
+    
+        <h3>Gerenciar Conta</h3>
+        <select name="selectContas" id="selectContas" class="form-control">
+          <option value="">--SELECIONE--</option>
+        </select>
+        <input type="number" name="valor" id="valor" class="form-control">
+        <button onclick="processar()" class="btn btn-primary">Processar</button>
+      </div>
+    </div>
+    <br><br>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Conta</th>
+              <th>Saldo</th>
+              <th>Encerrar Conta</th>
+            </tr>
+          </thead>
+          <tbody id="corpoTabela">
+          </tbody>
+        </table>
+    
+      </div>
+    </div>
+
+    
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- scripts -->
+  <script src="app.js"></script>
+  <script>
+    function processar() {
+      var numeroConta = document.getElementById("selectContas").value
+      var valor = document.getElementById("valor").value
+      if(numeroConta == "" || valor == "" ) {
+        return alert("Preencha a conta e o valor!")
+      }
+
+      numeroConta = parseInt(numeroConta)
+      valor = parseInt(valor)
+     
+      gerenciaConta(valor,numeroConta)
+
+      
+      document.getElementById("valor").value = ""
+      document.getElementById("selectContas").value = ""      
+
+    }
+    function criarContaForm() {
+      var nome = document.getElementById("nome")
+      if(nome.value.length == 0) {
+        return alert("Preencha o campo!")
+      }
+      
+      novaConta(nome.value)
+      montarSelectContas()
+      nome.value = ""
+    }
+
+
+    function renderiza() {
+      document.getElementById("corpoTabela").innerHTML = ""
+    
+      for (let i = 0; i < contas.length; i++) {
+        const conta = contas[i];
+        document.getElementById("corpoTabela").innerHTML += `
+        <tr>
+          <td>${conta[NOME_CONTA]}</td>
+          <td>${conta[NUM_CONTA]}</td>
+          <td>${conta[SALDO_CONTA]}</td>
+          <td><a onclick="encerrarConta(${conta[NUM_CONTA]})">X</a></td>
+        </tr>`
+
+      }
+    }
+
+    function montarSelectContas() {
+      console.warn("montarSelectContas")
+      var select = document.getElementById("selectContas")
+
+      select.innerHTML = ""
+
+      var opt = document.createElement('option');
+      opt.value = "";
+      opt.innerHTML = `--SELECIONE--`;
+      select.appendChild(opt);
+        
+      for (let i = 0; i < contas.length; i++) {
+        const conta = contas[i];
+
+        opt = document.createElement('option');
+        opt.value = conta[NUM_CONTA];
+        opt.innerHTML = `${conta[NUM_CONTA]} - ${conta[NOME_CONTA]}`;
+        select.appendChild(opt);
+        
+      }
+    }
+
+
+    setInterval(function name() {
+      renderiza()     
+    }, 1 * 1000)
+    montarSelectContas()
+  </script>  
+</body>
+</html>
